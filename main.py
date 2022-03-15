@@ -6,7 +6,6 @@ import requests
 from dotenv import load_dotenv
 
 
-load_dotenv()
 
 parser = argparse.ArgumentParser(
     description='Создание битлинка и подсчёт кликов по битлинку'
@@ -63,6 +62,8 @@ def is_bitlink(token, url):
 
 
 def main():
+    load_dotenv()
+    
     token = os.environ["BITLINK_TOKEN"]
     url = args.link
     urlparsed = urlparse(url).netloc + urlparse(url).path
