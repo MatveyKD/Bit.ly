@@ -7,14 +7,6 @@ from dotenv import load_dotenv
 
 
 
-parser = argparse.ArgumentParser(
-    description='Создание битлинка и подсчёт кликов по битлинку'
-)
-parser.add_argument('link', help='Ссылка')
-args = parser.parse_args()
-
-
-
 def shorten_link(token, url):
     bitlinks_site = "https://api-ssl.bitly.com/v4/bitlinks"
     
@@ -62,6 +54,12 @@ def is_bitlink(token, url):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description='Создание битлинка и подсчёт кликов по битлинку'
+    )
+    parser.add_argument('link', help='Ссылка')
+    args = parser.parse_args()
+    
     load_dotenv()
     
     token = os.environ["BITLINK_TOKEN"]
@@ -69,12 +67,12 @@ def main():
     urlparsed = urlparse(url).netloc + urlparse(url).path
     if is_bitlink(token, urlparsed):
         try:
-            print("Колличество перехождений по ссылке", count_clicks(token, urlparsed))
+            print("Колличество перехождений по ссылке:", count_clicks(token, urlparsed))
         except requests.exceptions.HTTPError:
             print("Введена некорректная ссылка")
     else:
         try:
-            print("Битлинк", shorten_link(token, url))
+            print("Битлинк:", shorten_link(token, url))
         except requests.exceptions.HTTPError:
             print("Введена некорректная ссылка")
 
